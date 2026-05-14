@@ -3,25 +3,18 @@ session_start();
 include '../config/koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = $_POST['username'];
+    // Gunakan real_escape_string biar aman dari karakter aneh
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = $_POST['password'];
 
     $query = "SELECT * FROM users WHERE username = '$username'";
     $result = mysqli_query($conn, $query);
+
     if ($result && mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
-        $isPasswordValid = false;
 
-        if (password_verify($password, $user['password'])) {
-            $isPasswordValid = true;
-        } elseif ($password === $user['password']) {
-            // Jika password masih disimpan dalam teks biasa, terima dan upgrade ke hash
-            $isPasswordValid = true;
-            $newHash = password_hash($password, PASSWORD_DEFAULT);
-            mysqli_query($conn, "UPDATE users SET password = '$newHash' WHERE id = {$user['id']}");
-        }
-
-        if ($isPasswordValid) {
+        // PERUBAHAN DI SINI: Cukup bandingkan teks biasa secara langsung
+        if ($password === $user['password']) {
             $_SESSION['user'] = $user['username'];
             $_SESSION['role'] = $user['role'];
             header('Location: ../index.php');

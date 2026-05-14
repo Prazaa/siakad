@@ -6,21 +6,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // Gunakan Prepared Statement agar aman dan stabil di server Linux
-    $stmt = mysqli_prepare($conn, "SELECT * FROM users WHERE username = ?");
-    mysqli_stmt_bind_param($stmt, "s", $username);
-    mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
+    $query = "SELECT * FROM users WHERE username = '$username'";
+    $result = mysqli_query($conn, $query);
+    if ($result && mysqli_num_rows($result) > 0) {
+        $user = mysqli_fetch_assoc($result);
+        $isPasswordValid = false;
 
-    if ($user = mysqli_fetch_assoc($result)) {
-        // password_verify akan membandingkan input '2403125938' dengan hash di DB
         if (password_verify($password, $user['password'])) {
+            $isPasswordValid = true;
+        } elseif ($password === $user['password']) {
+            // Jika password masih disimpan dalam teks biasa, terima dan upgrade ke hash
+            $isPasswordValid = true;
+            $newHash = password_hash($password, PASSWORD_DEFAULT);
+            mysqli_query($conn, "UPDATE users SET password = '$newHash' WHERE id = {$user['id']}");
+        }
+
+        if ($isPasswordValid) {
             $_SESSION['user'] = $user['username'];
             $_SESSION['role'] = $user['role'];
             header('Location: ../index.php');
             exit();
         } else {
-            $error = "Password salah! (Pastikan data di DB sudah di-hash)";
+            $error = "Password salah!";
         }
     } else {
         $error = "Username tidak ditemukan!";

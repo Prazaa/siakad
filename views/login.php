@@ -46,15 +46,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="../assets/style.css">
 </head>
 
-<body>
-    <div class="login-container">
+<body class="login-background">
+    <div class="login-card">
         <h2>Login SIAKAD</h2>
-        <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
+        <p>Masuk untuk mengelola data akademik dan melihat dashboard Anda.</p>
+        <?php if (isset($error)) echo "<p class='login-error'>$error</p>"; ?>
         <form method="POST">
-            <input type="text" name="username" placeholder="NIM/NIP" required>
+            <input type="text" name="username" placeholder="NIM / NIP" required>
             <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
+            <button type="submit">Masuk</button>
         </form>
+        <p class="login-footer">Gunakan data akun yang terdaftar di sistem.</p>
     </div>
 </body>
 

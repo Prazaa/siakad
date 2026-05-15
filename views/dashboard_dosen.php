@@ -31,11 +31,11 @@ $mk_list = mysqli_query($conn, $query_mk);
                 <h2>Siakad</h2>
                 <p>Sistem Informasi Akademik</p>
             </div>
-            <button id="sidebar-toggle-btn" class="sidebar-toggle">Sembunyikan Sidebar</button>
+            <button id="sidebar-close-btn" class="sidebar-close-btn">Sembunyikan Sidebar</button>
             <ul>
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#">Mata Kuliah</a></li>
-                <li><a href="#">Input Nilai</a></li>
+                <li><a href="#section-dashboard">Dashboard</a></li>
+                <li><a href="#section-courses">Mata Kuliah</a></li>
+                <li><a href="#section-input">Input Nilai</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
             <div class="sidebar-footer">
@@ -43,17 +43,22 @@ $mk_list = mysqli_query($conn, $query_mk);
             </div>
         </div>
         <div class="main-content" id="main-content">
-            <header>
+            <div class="page-header">
                 <div class="page-title">
                     <h1>Dashboard Dosen</h1>
                     <p>Ringkasan matakuliah dan kelas yang sedang Anda ampu.</p>
                 </div>
-                <div class="main-actions">
-                    <button class="secondary">Refresh</button>
-                    <button id="open-sidebar-btn" class="sidebar-toggle">Tampilkan Sidebar</button>
+                <div class="topnav">
+                    <a href="#section-dashboard">Dashboard</a>
+                    <a href="#section-courses">Mata Kuliah</a>
+                    <a href="#section-input">Input Nilai</a>
                 </div>
-            </header>
-            <div class="summary">
+                <div class="main-actions">
+                    <button class="secondary" type="button" onclick="location.reload()">Refresh</button>
+                    <button id="sidebar-open-btn" class="sidebar-open-btn">Tampilkan Sidebar</button>
+                </div>
+            </div>
+            <section id="section-dashboard" class="summary">
                 <div class="card">
                     <h3>NIP</h3>
                     <p><?php echo $dosen['nip']; ?></p>
@@ -62,8 +67,8 @@ $mk_list = mysqli_query($conn, $query_mk);
                     <h3>Jurusan</h3>
                     <p><?php echo $dosen['jurusan']; ?></p>
                 </div>
-            </div>
-            <div class="table-panel">
+            </section>
+            <section id="section-courses" class="table-panel">
                 <h3>Mata Kuliah yang Diajar</h3>
                 <table>
                     <tr>
@@ -79,9 +84,8 @@ $mk_list = mysqli_query($conn, $query_mk);
                         </tr>
                     <?php } ?>
                 </table>
-            </div>
+            </section>
         </div>
-    </div>
     </div>
     <script src="../assets/script.js"></script>
 </body>

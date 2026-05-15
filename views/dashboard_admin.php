@@ -33,15 +33,14 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
                 <h2>Siakad</h2>
                 <p>Sistem Informasi Akademik</p>
             </div>
-            <button id="sidebar-toggle-btn" class="sidebar-toggle">Sembunyikan Sidebar</button>
+            <button id="sidebar-close-btn" class="sidebar-close-btn">Sembunyikan Sidebar</button>
             <ul>
-                <li><a href="#">Dashboard</a></li>
-                <li><a href="#">Data Mahasiswa</a></li>
-                <li><a href="#">Data Dosen</a></li>
-                <li><a href="#">Tata Kelola Unit</a></li>
-                <li><a href="#">Pengampu MK</a></li>
-                <li><a href="#">Jadwal Kuliah</a></li>
-                <li><a href="#">Ganti Password</a></li>
+                <li><a href="#section-dashboard">Dashboard</a></li>
+                <li><a href="#section-mahasiswa">Data Mahasiswa</a></li>
+                <li><a href="#section-dosen">Data Dosen</a></li>
+                <li><a href="#section-mk">Matakuliah</a></li>
+                <li><a href="#section-laporan">Laporan</a></li>
+                <li><a href="#section-password">Ganti Password</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
             <div class="sidebar-footer">
@@ -49,18 +48,23 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
             </div>
         </div>
         <div class="main-content" id="main-content">
-            <header>
+            <div class="page-header">
                 <div class="page-title">
                     <h1>Dashboard Admin</h1>
                     <p>Manajemen data dan laporan akademik secara profesional.</p>
                 </div>
-                <div class="main-actions">
-                    <button class="secondary">Refresh</button>
-                    <button>Generate Laporan</button>
-                    <button onclick="location.href='logout.php'">Logout</button>
+                <div class="topnav">
+                    <a href="#section-dashboard">Dashboard</a>
+                    <a href="#section-mahasiswa">Mahasiswa</a>
+                    <a href="#section-dosen">Dosen</a>
+                    <a href="#section-mk">Matakuliah</a>
                 </div>
-            </header>
-            <div class="summary">
+                <div class="main-actions">
+                    <button class="secondary" type="button" onclick="location.reload()">Refresh</button>
+                    <button id="sidebar-open-btn" class="sidebar-open-btn">Tampilkan Sidebar</button>
+                </div>
+            </div>
+            <section id="section-dashboard" class="summary">
                 <div class="card">
                     <h3>Total Mahasiswa</h3>
                     <p><?php echo $total_mhs; ?></p>
@@ -76,9 +80,9 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
                     <p><?php echo $total_mk; ?></p>
                     <a href="#">Klik untuk melihat data matakuliah</a>
                 </div>
-            </div>
+            </section>
             <div class="tables">
-                <div class="table-panel">
+                <section id="section-mahasiswa" class="table-panel">
                     <h3>Mahasiswa Terbaru</h3>
                     <table>
                         <tr>
@@ -93,8 +97,8 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
                         <?php } ?>
                     </table>
                     <a href="#">Lihat Semua</a>
-                </div>
-                <div class="table-panel">
+                </section>
+                <section id="section-dosen" class="table-panel">
                     <h3>Dosen Terbaru</h3>
                     <table>
                         <tr>
@@ -109,8 +113,8 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
                         <?php } ?>
                     </table>
                     <a href="#">Lihat Semua</a>
-                </div>
-                <div class="table-panel">
+                </section>
+                <section id="section-mk" class="table-panel">
                     <h3>Matakuliah Terbaru</h3>
                     <table>
                         <tr>
@@ -125,7 +129,7 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
                         <?php } ?>
                     </table>
                     <a href="#">Lihat Semua</a>
-                </div>
+                </section>
             </div>
         </div>
     </div>

@@ -31,6 +31,7 @@ $mk_list = mysqli_query($conn, $query_mk);
                 <h2>Siakad</h2>
                 <p>Sistem Informasi Akademik</p>
             </div>
+            <button id="sidebar-toggle-btn" class="sidebar-toggle" aria-expanded="true">☰</button>
             <ul>
                 <li><a href="#section-dashboard">Dashboard</a></li>
                 <li><a href="#section-courses">Mata Kuliah</a></li>

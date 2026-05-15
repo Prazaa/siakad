@@ -11,14 +11,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $nama = mysqli_real_escape_string($conn, $_POST['nama']);
   $jurusan = mysqli_real_escape_string($conn, $_POST['jurusan']);
 
-  $sql = "INSERT INTO dosen (nip, nama, jurusan) VALUES ('$nip', '$nama', '$jurusan')";
-  if (mysqli_query($conn, $sql)) {
-    $hash = password_hash('password', PASSWORD_DEFAULT);
-    mysqli_query($conn, "INSERT INTO users (username, password, role) VALUES ('$nip', '$hash', 'dosen')");
-    header('Location: dashboard_admin.php');
-    exit();
+  $exists = mysqli_query($conn, "SELECT id FROM dosen WHERE nip = '$nip'");
+  if (mysqli_num_rows($exists) > 0) {
+    $error = 'NIP sudah terdaftar.';
   } else {
-    $error = 'Gagal menambahkan dosen: ' . mysqli_error($conn);
+    $sql = "INSERT INTO dosen (nip, nama, jurusan) VALUES ('$nip', '$nama', '$jurusan')";
+    if (mysqli_query($conn, $sql)) {
+      $hash = password_hash('password', PASSWORD_DEFAULT);
+      $u = mysqli_query($conn, "SELECT id FROM users WHERE username = '$nip'");
+      if (mysqli_num_rows($u) == 0) {
+        mysqli_query($conn, "INSERT INTO users (username, password, role) VALUES ('$nip', '$hash', 'dosen')");
+      }
+      header('Location: data_dosen.php');
+      exit();
+    } else {
+      $error = 'Gagal menambahkan dosen: ' . mysqli_error($conn);
+    }
   }
 }
 ?>

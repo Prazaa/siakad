@@ -18,7 +18,13 @@
 body {
   margin: 0;
   min-height: 100vh;
-  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family:
+    Inter,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   color: var(--text);
   background: linear-gradient(180deg, #eef4ff 0%, #f8fbff 100%);
 }
@@ -75,7 +81,9 @@ button {
   background: #f8fafc;
   color: var(--text);
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .login-card input:focus {
@@ -131,7 +139,10 @@ button {
   top: 0;
   left: 0;
   bottom: 0;
-  transition: width 0.3s ease, padding 0.3s ease, transform 0.3s ease;
+  transition:
+    width 0.3s ease,
+    padding 0.3s ease,
+    transform 0.3s ease;
   overflow: hidden;
   box-shadow: 4px 0 30px rgba(15, 23, 42, 0.12);
 }
@@ -162,7 +173,8 @@ button {
 .sidebar-open-btn,
 .sidebar-toggle,
 .actions button,
-.main-actions button {
+.main-actions button,
+.btn {
   padding: 12px 18px;
   border-radius: 999px;
   border: none;
@@ -170,7 +182,10 @@ button {
   color: #ffffff;
   cursor: pointer;
   font-weight: 600;
-  transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .sidebar-close-btn,
@@ -217,11 +232,13 @@ button {
   border-radius: 14px;
   color: #ffffff;
   font-weight: 500;
-  transition: background 0.2s ease, color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
 }
 
 .sidebar ul li a::before {
-  content: "•";
+  content: "ï¿½";
   margin-right: 10px;
   opacity: 0.8;
 }
@@ -229,6 +246,31 @@ button {
 .sidebar ul li a:hover,
 .sidebar ul li a:focus {
   background: rgba(255, 255, 255, 0.18);
+}
+
+/* Button variants */
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+}
+.btn-secondary {
+  background: #f3f4f6;
+  color: var(--text);
+}
+.btn-add {
+  background: var(--accent);
+  color: #fff;
+}
+
+.sidebar-toggle {
+  width: 100%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
 }
 
 .sidebar-footer {
@@ -248,7 +290,9 @@ button {
   margin-left: 260px;
   padding: 30px 34px;
   width: calc(100% - 260px);
-  transition: margin-left 0.3s ease, width 0.3s ease;
+  transition:
+    margin-left 0.3s ease,
+    width 0.3s ease;
 }
 
 .main-content.collapsed {
@@ -291,7 +335,9 @@ button {
   color: var(--text);
   background: rgba(37, 99, 235, 0.08);
   font-weight: 600;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
 }
 
 .topnav a:hover,

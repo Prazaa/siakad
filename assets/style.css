@@ -143,14 +143,27 @@ button {
     width 0.3s ease,
     padding 0.3s ease,
     transform 0.3s ease;
-  overflow: hidden;
+  overflow-y: auto;
   box-shadow: 4px 0 30px rgba(15, 23, 42, 0.12);
 }
 
 .sidebar.collapsed {
-  width: 0;
-  min-width: 0;
-  padding: 0;
+  width: 180px;
+  min-width: 180px;
+  padding: 32px 16px;
+}
+
+.sidebar.collapsed ul,
+.sidebar.collapsed .sidebar-footer {
+  display: none;
+}
+
+.sidebar.collapsed .brand {
+  margin-bottom: 18px;
+}
+
+.sidebar.collapsed .brand p {
+  opacity: 0.9;
 }
 
 .sidebar .brand {
@@ -196,6 +209,10 @@ button {
   align-items: center;
   gap: 8px;
   margin-bottom: 24px;
+}
+
+.sidebar.collapsed .sidebar-toggle {
+  margin-bottom: 20px;
 }
 
 .sidebar-close-btn:hover,
@@ -296,8 +313,8 @@ button {
 }
 
 .main-content.collapsed {
-  margin-left: 0;
-  width: 100%;
+  margin-left: 180px;
+  width: calc(100% - 180px);
 }
 
 .page-header {

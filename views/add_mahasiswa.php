@@ -18,14 +18,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (mysqli_num_rows($exists) > 0) {
     $error = 'NIM sudah terdaftar.';
   } else {
+    // Tambah user untuk login (password default "password") jika belum ada
+    $hash = password_hash('password', PASSWORD_DEFAULT);
+    $u = mysqli_query($conn, "SELECT id FROM users WHERE username = '$nim'");
+    if (mysqli_num_rows($u) == 0) {
+      mysqli_query($conn, "INSERT INTO users (username, password, role) VALUES ('$nim', '$hash', 'mahasiswa')");
+    }
     $sql = "INSERT INTO mahasiswa (nim, nama, jurusan, angkatan) VALUES ('$nim', '$nama', '$jurusan', $angkatan)";
     if (mysqli_query($conn, $sql)) {
-      // Tambah user untuk login (password default "password") jika belum ada
-      $hash = password_hash('password', PASSWORD_DEFAULT);
-      $u = mysqli_query($conn, "SELECT id FROM users WHERE username = '$nim'");
-      if (mysqli_num_rows($u) == 0) {
-        mysqli_query($conn, "INSERT INTO users (username, password, role) VALUES ('$nim', '$hash', 'mahasiswa')");
-      }
       header('Location: data_mahasiswa.php');
       exit();
     } else {

@@ -15,13 +15,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (mysqli_num_rows($exists) > 0) {
     $error = 'NIP sudah terdaftar.';
   } else {
+    $hash = password_hash('password', PASSWORD_DEFAULT);
+    $u = mysqli_query($conn, "SELECT id FROM users WHERE username = '$nip'");
+    if (mysqli_num_rows($u) == 0) {
+      mysqli_query($conn, "INSERT INTO users (username, password, role) VALUES ('$nip', '$hash', 'dosen')");
+    }
     $sql = "INSERT INTO dosen (nip, nama, jurusan) VALUES ('$nip', '$nama', '$jurusan')";
     if (mysqli_query($conn, $sql)) {
-      $hash = password_hash('password', PASSWORD_DEFAULT);
-      $u = mysqli_query($conn, "SELECT id FROM users WHERE username = '$nip'");
-      if (mysqli_num_rows($u) == 0) {
-        mysqli_query($conn, "INSERT INTO users (username, password, role) VALUES ('$nip', '$hash', 'dosen')");
-      }
       header('Location: data_dosen.php');
       exit();
     } else {

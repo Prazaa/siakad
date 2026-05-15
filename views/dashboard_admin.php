@@ -67,17 +67,17 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
                 <div class="card">
                     <h3>Total Mahasiswa</h3>
                     <p><?php echo $total_mhs; ?></p>
-                    <a href="#">Klik untuk melihat data mahasiswa</a>
+                    <a class="btn btn-primary" href="data_mahasiswa.php">Lihat Data</a>
                 </div>
                 <div class="card">
                     <h3>Total Dosen</h3>
                     <p><?php echo $total_dosen; ?></p>
-                    <a href="#">Klik untuk melihat data dosen</a>
+                    <a class="btn btn-primary" href="data_dosen.php">Lihat Data</a>
                 </div>
                 <div class="card">
                     <h3>Total Matakuliah</h3>
                     <p><?php echo $total_mk; ?></p>
-                    <a href="#">Klik untuk melihat data matakuliah</a>
+                    <a class="btn btn-primary" href="matakuliah.php">Lihat Data</a>
                 </div>
             </section>
             <div class="tables">

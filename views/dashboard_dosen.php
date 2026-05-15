@@ -33,9 +33,9 @@ $mk_list = mysqli_query($conn, $query_mk);
             </div>
             <button id="sidebar-toggle-btn" class="sidebar-toggle" aria-expanded="true">☰</button>
             <ul>
-                <li><a href="#section-dashboard">Dashboard</a></li>
-                <li><a href="#section-courses">Mata Kuliah</a></li>
-                <li><a href="#section-input">Input Nilai</a></li>
+                <li><a href="dashboard_dosen.php">Dashboard</a></li>
+                <li><a href="matakuliah.php">Mata Kuliah</a></li>
+                <li><a href="input_nilai.php">Input Nilai</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
             <div class="sidebar-footer">

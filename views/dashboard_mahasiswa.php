@@ -10,12 +10,36 @@ include '../config/koneksi.php';
 $query = "SELECT * FROM mahasiswa WHERE nim = '{$_SESSION['user']}'";
 $mhs = mysqli_fetch_assoc(mysqli_query($conn, $query));
 
-// Ambil mata kuliah yang diambil
-$query_mk = "SELECT mk.nama_mk, mk.kode_mk, d.nama as dosen, e.nilai FROM enrollment e 
-             JOIN mata_kuliah mk ON e.mata_kuliah_id = mk.id 
-             JOIN dosen d ON mk.dosen_id = d.id 
+// handle enroll / unenroll actions
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!empty($_POST['action']) && $_POST['action'] === 'enroll' && !empty($_POST['mk_id'])) {
+        $mk_id = (int) $_POST['mk_id'];
+        mysqli_query($conn, "INSERT INTO enrollment (mahasiswa_id, mata_kuliah_id, semester) VALUES ({$mhs['id']}, $mk_id, '2023/2024')");
+    }
+    if (!empty($_POST['action']) && $_POST['action'] === 'unenroll' && !empty($_POST['enroll_id'])) {
+        $enroll_id = (int) $_POST['enroll_id'];
+        mysqli_query($conn, "DELETE FROM enrollment WHERE id = $enroll_id AND mahasiswa_id = {$mhs['id']}");
+    }
+    // refresh data after action
+    header('Location: dashboard_mahasiswa.php');
+    exit();
+}
+
+// Ambil mata kuliah yang diambil (dengan info sks dan jadwal)
+$query_mk = "SELECT e.id as enroll_id, mk.id as mk_id, mk.nama_mk, mk.kode_mk, mk.sks, mk.jadwal, d.nama as dosen, e.nilai
+             FROM enrollment e
+             JOIN mata_kuliah mk ON e.mata_kuliah_id = mk.id
+             LEFT JOIN dosen d ON mk.dosen_id = d.id
              WHERE e.mahasiswa_id = {$mhs['id']}";
-$mk_list = mysqli_query($conn, $query_mk);
+$mk_list_res = mysqli_query($conn, $query_mk);
+$mk_rows = [];
+while ($r = mysqli_fetch_assoc($mk_list_res)) {
+    $mk_rows[] = $r;
+}
+
+// Ambil daftar mata kuliah yang belum diambil untuk ditambahkan
+$available_q = "SELECT * FROM mata_kuliah WHERE id NOT IN (SELECT mata_kuliah_id FROM enrollment WHERE mahasiswa_id = {$mhs['id']})";
+$available_res = mysqli_query($conn, $available_q);
 ?>
 
 <!DOCTYPE html>
@@ -66,6 +90,36 @@ $mk_list = mysqli_query($conn, $query_mk);
                 : null;
             ?>
 
+            <?php
+            // indeks nilai mapping
+            $grade_map = [
+                'A' => 4.00,
+                'A-' => 3.75,
+                'B+' => 3.50,
+                'B' => 3.00,
+                'B-' => 2.75,
+                'C+' => 2.50,
+                'C' => 2.00,
+                'D' => 1.00,
+                'E' => 0.00,
+                'T' => 0.00
+            ];
+
+            // hitung IPK dari mata kuliah yang memiliki nilai
+            $total_weight = 0.0;
+            $total_sks_for_gpa = 0;
+            foreach ($mk_rows as $r) {
+                $nilai = trim($r['nilai']);
+                if ($nilai !== '' && isset($grade_map[$nilai]) && !empty($r['sks'])) {
+                    $gp = $grade_map[$nilai];
+                    $total_weight += $gp * (int)$r['sks'];
+                    $total_sks_for_gpa += (int)$r['sks'];
+                }
+            }
+            $ipk_display = $total_sks_for_gpa > 0 ? round($total_weight / $total_sks_for_gpa, 2) : '-';
+
+            ?>
+
             <section id="section-dashboard" class="student-dashboard">
                 <div class="student-panel">
                     <div class="profile-hero">
@@ -104,8 +158,8 @@ $mk_list = mysqli_query($conn, $query_mk);
                     <div class="stats-grid">
                         <div class="stats-card">
                             <h3>IPK</h3>
-                            <p>-</p>
-                            <small>Data belum tersedia</small>
+                            <p><?php echo $ipk_display; ?></p>
+                            <small><?php echo $total_sks_for_gpa > 0 ? 'Berbasis nilai terinput' : 'Belum ada nilai'; ?></small>
                         </div>
                         <div class="stats-card">
                             <h3>Matakuliah</h3>
@@ -132,13 +186,7 @@ $mk_list = mysqli_query($conn, $query_mk);
                 </div>
             </section>
 
-            <section id="section-schedule" class="report-panel">
-                <div class="section-title">
-                    <h2>Jadwal Kuliah</h2>
-                    <a href="#section-grades">Lihat Nilai</a>
-                </div>
-                <p>Belum ada jadwal terdaftar. Silakan hubungi admin untuk input jadwal.</p>
-            </section>
+
 
             <section id="section-grades" class="report-panel">
                 <div class="section-title">
@@ -152,7 +200,7 @@ $mk_list = mysqli_query($conn, $query_mk);
                         <th>Dosen</th>
                         <th>Nilai</th>
                     </tr>
-                    <?php while ($row = mysqli_fetch_assoc($mk_list)) { ?>
+                    <?php foreach ($mk_rows as $row) { ?>
                         <tr>
                             <td><?php echo $row['kode_mk']; ?></td>
                             <td><?php echo $row['nama_mk']; ?></td>
@@ -161,6 +209,94 @@ $mk_list = mysqli_query($conn, $query_mk);
                         </tr>
                     <?php } ?>
                 </table>
+            </section>
+
+            <section id="section-manage" class="table-panel">
+                <div class="section-title">
+                    <h2>Kelola Matakuliah</h2><span>Tambahkan atau hapus matakuliah yang Anda ikuti</span>
+                </div>
+                <div style="display:grid;gap:12px;">
+                    <div>
+                        <h4>Matakuliah Terdaftar</h4>
+                        <table>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Nama</th>
+                                <th>SKS</th>
+                                <th>Jadwal</th>
+                                <th>Aksi</th>
+                            </tr>
+                            <?php foreach ($mk_rows as $r) { ?>
+                                <tr>
+                                    <td><?php echo $r['kode_mk']; ?></td>
+                                    <td><?php echo $r['nama_mk']; ?></td>
+                                    <td><?php echo $r['sks']; ?></td>
+                                    <td><?php echo $r['jadwal'] ?: '-'; ?></td>
+                                    <td>
+                                        <form method="post" style="display:inline;">
+                                            <input type="hidden" name="action" value="unenroll">
+                                            <input type="hidden" name="enroll_id" value="<?php echo $r['enroll_id']; ?>">
+                                            <button class="btn btn-secondary" type="submit">Hapus</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </table>
+                    </div>
+
+                    <div>
+                        <h4>Tambahkan Matakuliah</h4>
+                        <table>
+                            <tr>
+                                <th>Kode</th>
+                                <th>Nama</th>
+                                <th>SKS</th>
+                                <th>Jadwal</th>
+                                <th>Aksi</th>
+                            </tr>
+                            <?php while ($a = mysqli_fetch_assoc($available_res)) { ?>
+                                <tr>
+                                    <td><?php echo $a['kode_mk']; ?></td>
+                                    <td><?php echo $a['nama_mk']; ?></td>
+                                    <td><?php echo $a['sks']; ?></td>
+                                    <td><?php echo $a['jadwal'] ?: '-'; ?></td>
+                                    <td>
+                                        <form method="post" style="display:inline;">
+                                            <input type="hidden" name="action" value="enroll">
+                                            <input type="hidden" name="mk_id" value="<?php echo $a['id']; ?>">
+                                            <button class="btn btn-primary" type="submit">Tambah</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="section-schedule" class="report-panel">
+                <div class="section-title">
+                    <h2>Jadwal Kuliah</h2>
+                    <a href="#section-grades">Lihat Nilai</a>
+                </div>
+                <?php if (count($mk_rows) > 0) { ?>
+                    <table>
+                        <tr>
+                            <th>Kode</th>
+                            <th>Nama</th>
+                            <th>Jadwal</th>
+                        </tr>
+                        <?php foreach ($mk_rows as $r) { ?>
+                            <tr>
+                                <td><?php echo $r['kode_mk']; ?></td>
+                                <td><?php echo $r['nama_mk']; ?></td>
+                                <td><?php echo $r['jadwal'] ?: '-'; ?></td>
+                            </tr>
+                        <?php } ?>
+                    </table>
+                <?php } else { ?>
+                    <p>Belum ada jadwal terdaftar. Tambahkan matakuliah untuk melihat jadwal.</p>
+                <?php } ?>
             </section>
         </div>
     </div>

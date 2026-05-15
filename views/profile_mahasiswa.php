@@ -18,6 +18,12 @@ if (!$mhs) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  // periksa apakah kolom photo ada, jika tidak tambahkan
+  $col_check = mysqli_query($conn, "SHOW COLUMNS FROM mahasiswa LIKE 'photo'");
+  if (mysqli_num_rows($col_check) == 0) {
+    mysqli_query($conn, "ALTER TABLE mahasiswa ADD COLUMN photo VARCHAR(255) DEFAULT NULL");
+  }
+
   $nama = mysqli_real_escape_string($conn, trim($_POST['nama']));
   $jurusan = mysqli_real_escape_string($conn, trim($_POST['jurusan']));
   $angkatan = mysqli_real_escape_string($conn, trim($_POST['angkatan']));
@@ -33,6 +39,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $mhs['angkatan'] = $angkatan;
     } else {
       $error = 'Terjadi kesalahan saat menyimpan profil.';
+    }
+  }
+  // handle file upload jika ada
+  if (isset($_FILES['photo']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
+    $up = $_FILES['photo'];
+    $ext = strtolower(pathinfo($up['name'], PATHINFO_EXTENSION));
+    $allowed = ['jpg', 'jpeg', 'png', 'gif'];
+    if (!in_array($ext, $allowed)) {
+      $error = 'Jenis file tidak diperbolehkan. Gunakan jpg, png, atau gif.';
+    } else {
+      $uploads_dir = __DIR__ . '/../uploads';
+      if (!is_dir($uploads_dir)) mkdir($uploads_dir, 0755, true);
+      $filename = 'mhs_' . $mhs['nim'] . '_' . time() . '.' . $ext;
+      $dest = $uploads_dir . '/' . $filename;
+      if (move_uploaded_file($up['tmp_name'], $dest)) {
+        // hapus file lama jika ada
+        if (!empty($mhs['photo']) && file_exists(__DIR__ . '/../uploads/' . $mhs['photo'])) {
+          @unlink(__DIR__ . '/../uploads/' . $mhs['photo']);
+        }
+        mysqli_query($conn, "UPDATE mahasiswa SET photo = '$filename' WHERE nim = '{$_SESSION['user']}'");
+        $mhs['photo'] = $filename;
+        $success = 'Profil dan foto berhasil diperbarui.';
+      } else {
+        $error = 'Gagal menyimpan file foto.';
+      }
     }
   }
 }
@@ -85,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           </div>
         <?php } ?>
 
-        <form action="" method="post" style="display: grid; gap: 18px;">
+        <form action="" method="post" enctype="multipart/form-data" style="display: grid; gap: 18px;">
           <label>
             <span>Nama Lengkap</span>
             <input type="text" name="nama" value="<?php echo htmlspecialchars($mhs['nama']); ?>" required>
@@ -101,6 +132,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <label>
             <span>NIM</span>
             <input type="text" value="<?php echo htmlspecialchars($mhs['nim']); ?>" disabled>
+          </label>
+          <label>
+            <span>Foto Profil (opsional)</span>
+            <?php if (!empty($mhs['photo']) && file_exists(__DIR__ . '/../uploads/' . $mhs['photo'])) { ?>
+              <div style="display:flex;gap:12px;align-items:center;">
+                <img src="<?php echo '../uploads/' . $mhs['photo']; ?>" style="width:96px;height:96px;object-fit:cover;border-radius:12px;" alt="foto">
+                <input type="file" name="photo" accept="image/*">
+              </div>
+            <?php } else { ?>
+              <input type="file" name="photo" accept="image/*">
+            <?php } ?>
           </label>
           <div class="profile-actions">
             <button class="btn btn-primary" type="submit">Simpan Perubahan</button>

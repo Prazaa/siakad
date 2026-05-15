@@ -31,7 +31,6 @@ $mk_list = mysqli_query($conn, $query_mk);
                 <h2>Siakad</h2>
                 <p>Sistem Informasi Akademik</p>
             </div>
-            <button id="sidebar-close-btn" class="sidebar-close-btn">Sembunyikan Sidebar</button>
             <ul>
                 <li><a href="#section-dashboard">Dashboard</a></li>
                 <li><a href="#section-courses">Mata Kuliah</a></li>
@@ -51,11 +50,11 @@ $mk_list = mysqli_query($conn, $query_mk);
                 <div class="topnav">
                     <a href="#section-dashboard">Dashboard</a>
                     <a href="#section-courses">Mata Kuliah</a>
-                    <a href="#section-input">Input Nilai</a>
+                    <a href="input_nilai.php">Input Nilai</a>
                 </div>
                 <div class="main-actions">
                     <button class="secondary" type="button" onclick="location.reload()">Refresh</button>
-                    <button id="sidebar-open-btn" class="sidebar-open-btn">Tampilkan Sidebar</button>
+                    <button id="sidebar-toggle-btn" class="sidebar-toggle" aria-expanded="true">☰</button>
                 </div>
             </div>
             <section id="section-dashboard" class="summary">

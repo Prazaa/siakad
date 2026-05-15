@@ -1,30 +1,21 @@
 document.addEventListener('DOMContentLoaded', function() {
   const sidebar = document.querySelector('.sidebar');
   const mainContent = document.getElementById('main-content');
-  const closeBtn = document.getElementById('sidebar-close-btn');
-  const openBtn = document.getElementById('sidebar-open-btn');
+  const toggleBtn = document.getElementById('sidebar-toggle-btn');
 
-  function setCollapsed(collapsed) {
-    if (collapsed) {
-      sidebar.classList.add('collapsed');
-      mainContent.classList.add('collapsed');
-    } else {
-      sidebar.classList.remove('collapsed');
-      mainContent.classList.remove('collapsed');
-    }
+  function toggleCollapsed() {
+    const collapsed = sidebar.classList.toggle('collapsed');
+    mainContent.classList.toggle('collapsed');
+    // update aria-expanded for accessibility
+    if (toggleBtn) toggleBtn.setAttribute('aria-expanded', (!collapsed).toString());
   }
 
-  if (closeBtn) {
-    closeBtn.addEventListener('click', function() {
-      setCollapsed(true);
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', function() {
+      toggleCollapsed();
     });
   }
 
-  if (openBtn) {
-    openBtn.addEventListener('click', function() {
-      setCollapsed(false);
-    });
-  }
-
-  setCollapsed(false);
+  // initialize aria state
+  if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
 });

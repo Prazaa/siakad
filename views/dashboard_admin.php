@@ -33,7 +33,6 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
                 <h2>Siakad</h2>
                 <p>Sistem Informasi Akademik</p>
             </div>
-            <button id="sidebar-close-btn" class="sidebar-close-btn">Sembunyikan Sidebar</button>
             <ul>
                 <li><a href="#section-dashboard">Dashboard</a></li>
                 <li><a href="#section-mahasiswa">Data Mahasiswa</a></li>
@@ -61,7 +60,7 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
                 </div>
                 <div class="main-actions">
                     <button class="secondary" type="button" onclick="location.reload()">Refresh</button>
-                    <button id="sidebar-open-btn" class="sidebar-open-btn">Tampilkan Sidebar</button>
+                    <button id="sidebar-toggle-btn" class="sidebar-toggle" aria-expanded="true">☰</button>
                 </div>
             </div>
             <section id="section-dashboard" class="summary">
@@ -83,7 +82,10 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
             </section>
             <div class="tables">
                 <section id="section-mahasiswa" class="table-panel">
-                    <h3>Mahasiswa Terbaru</h3>
+                    <div style="display:flex;justify-content:space-between;align-items:center">
+                        <h3>Mahasiswa Terbaru</h3>
+                        <a class="sidebar-toggle" href="add_mahasiswa.php">Tambah Mahasiswa</a>
+                    </div>
                     <table>
                         <tr>
                             <th>NIM</th>
@@ -99,7 +101,10 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
                     <a href="#">Lihat Semua</a>
                 </section>
                 <section id="section-dosen" class="table-panel">
-                    <h3>Dosen Terbaru</h3>
+                    <div style="display:flex;justify-content:space-between;align-items:center">
+                        <h3>Dosen Terbaru</h3>
+                        <a class="sidebar-toggle" href="add_dosen.php">Tambah Dosen</a>
+                    </div>
                     <table>
                         <tr>
                             <th>Kode</th>

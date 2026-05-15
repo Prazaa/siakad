@@ -38,14 +38,20 @@ $mk_list = mysqli_query($conn, $query_mk);
                 <li><a href="#">Input Nilai</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
+            <div class="sidebar-footer">
+                <strong>Siakad</strong> • Pantau pengajaran dan nilai mahasiswa dengan cepat.
+            </div>
         </div>
         <div class="main-content" id="main-content">
             <header>
                 <div class="page-title">
                     <h1>Dashboard Dosen</h1>
-                    <p>Selamat datang, <?php echo $dosen['nama']; ?></p>
+                    <p>Ringkasan matakuliah dan kelas yang sedang Anda ampu.</p>
                 </div>
-                <button id="open-sidebar-btn" class="sidebar-toggle">Tampilkan Sidebar</button>
+                <div class="main-actions">
+                    <button class="secondary">Refresh</button>
+                    <button id="open-sidebar-btn" class="sidebar-toggle">Tampilkan Sidebar</button>
+                </div>
             </header>
             <div class="summary">
                 <div class="card">

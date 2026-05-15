@@ -44,18 +44,21 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
                 <li><a href="#">Ganti Password</a></li>
                 <li><a href="logout.php">Logout</a></li>
             </ul>
+            <div class="sidebar-footer">
+                <strong>Siakad</strong> • Kelola data akademik dengan mudah dan cepat.
+            </div>
         </div>
         <div class="main-content" id="main-content">
             <header>
                 <div class="page-title">
                     <h1>Dashboard Admin</h1>
-                    <p>Sistem Informasi Akademik</p>
+                    <p>Manajemen data dan laporan akademik secara profesional.</p>
                 </div>
-                <div class="actions">
+                <div class="main-actions">
+                    <button class="secondary">Refresh</button>
                     <button>Generate Laporan</button>
                     <button onclick="location.href='logout.php'">Logout</button>
                 </div>
-                <button id="open-sidebar-btn" class="sidebar-toggle">Tampilkan Sidebar</button>
             </header>
             <div class="summary">
                 <div class="card">

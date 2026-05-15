@@ -27,98 +27,102 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
 </head>
 
 <body>
-    <div class="sidebar">
-        <h2>Siakad</h2>
-        <p>Sistem Informasi Akademik</p>
-        <button id="sidebar-toggle-btn" class="sidebar-toggle">Sembunyikan Sidebar</button>
-        <ul>
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Data Mahasiswa</a></li>
-            <li><a href="#">Data Dosen</a></li>
-            <li><a href="#">Tata Kelola Unit</a></li>
-            <li><a href="#">Pengampu MK</a></li>
-            <li><a href="#">Jadwal Kuliah</a></li>
-            <li><a href="#">Ganti Password</a></li>
-            <li><a href="logout.php">Logout</a></li>
-        </ul>
-    </div>
-    <div class="main-content" id="main-content">
-        <header>
-            <div>
-                <h1>Dashboard Admin</h1>
+    <div class="app-shell">
+        <div class="sidebar">
+            <div class="brand">
+                <h2>Siakad</h2>
                 <p>Sistem Informasi Akademik</p>
             </div>
-            <div class="actions">
-                <button>Generate Laporan</button>
-                <button onclick="location.href='logout.php'">Logout</button>
-            </div>
-            <button id="open-sidebar-btn" class="sidebar-toggle">Tampilkan Sidebar</button>
-        </header>
-        <div class="summary">
-            <div class="card">
-                <h3>Total Mahasiswa</h3>
-                <p><?php echo $total_mhs; ?></p>
-                <a href="#">Klik untuk melihat data mahasiswa</a>
-            </div>
-            <div class="card">
-                <h3>Total Dosen</h3>
-                <p><?php echo $total_dosen; ?></p>
-                <a href="#">Klik untuk melihat data dosen</a>
-            </div>
-            <div class="card">
-                <h3>Total Matakuliah</h3>
-                <p><?php echo $total_mk; ?></p>
-                <a href="#">Klik untuk melihat data matakuliah</a>
-            </div>
+            <button id="sidebar-toggle-btn" class="sidebar-toggle">Sembunyikan Sidebar</button>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Data Mahasiswa</a></li>
+                <li><a href="#">Data Dosen</a></li>
+                <li><a href="#">Tata Kelola Unit</a></li>
+                <li><a href="#">Pengampu MK</a></li>
+                <li><a href="#">Jadwal Kuliah</a></li>
+                <li><a href="#">Ganti Password</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
         </div>
-        <div class="tables">
-            <div class="table-panel">
-                <h3>Mahasiswa Terbaru</h3>
-                <table>
-                    <tr>
-                        <th>NIM</th>
-                        <th>Nama</th>
-                    </tr>
-                    <?php while ($row = mysqli_fetch_assoc($mhs_baru)) { ?>
-                        <tr>
-                            <td><?php echo $row['nim']; ?></td>
-                            <td><?php echo $row['nama']; ?></td>
-                        </tr>
-                    <?php } ?>
-                </table>
-                <a href="#">Lihat Semua</a>
+        <div class="main-content" id="main-content">
+            <header>
+                <div class="page-title">
+                    <h1>Dashboard Admin</h1>
+                    <p>Sistem Informasi Akademik</p>
+                </div>
+                <div class="actions">
+                    <button>Generate Laporan</button>
+                    <button onclick="location.href='logout.php'">Logout</button>
+                </div>
+                <button id="open-sidebar-btn" class="sidebar-toggle">Tampilkan Sidebar</button>
+            </header>
+            <div class="summary">
+                <div class="card">
+                    <h3>Total Mahasiswa</h3>
+                    <p><?php echo $total_mhs; ?></p>
+                    <a href="#">Klik untuk melihat data mahasiswa</a>
+                </div>
+                <div class="card">
+                    <h3>Total Dosen</h3>
+                    <p><?php echo $total_dosen; ?></p>
+                    <a href="#">Klik untuk melihat data dosen</a>
+                </div>
+                <div class="card">
+                    <h3>Total Matakuliah</h3>
+                    <p><?php echo $total_mk; ?></p>
+                    <a href="#">Klik untuk melihat data matakuliah</a>
+                </div>
             </div>
-            <div class="table-panel">
-                <h3>Dosen Terbaru</h3>
-                <table>
-                    <tr>
-                        <th>Kode</th>
-                        <th>Nama</th>
-                    </tr>
-                    <?php while ($row = mysqli_fetch_assoc($dosen_baru)) { ?>
+            <div class="tables">
+                <div class="table-panel">
+                    <h3>Mahasiswa Terbaru</h3>
+                    <table>
                         <tr>
-                            <td><?php echo $row['nip']; ?></td>
-                            <td><?php echo $row['nama']; ?></td>
+                            <th>NIM</th>
+                            <th>Nama</th>
                         </tr>
-                    <?php } ?>
-                </table>
-                <a href="#">Lihat Semua</a>
-            </div>
-            <div class="table-panel">
-                <h3>Matakuliah Terbaru</h3>
-                <table>
-                    <tr>
-                        <th>Kode</th>
-                        <th>Nama MK</th>
-                    </tr>
-                    <?php while ($row = mysqli_fetch_assoc($mk_baru)) { ?>
+                        <?php while ($row = mysqli_fetch_assoc($mhs_baru)) { ?>
+                            <tr>
+                                <td><?php echo $row['nim']; ?></td>
+                                <td><?php echo $row['nama']; ?></td>
+                            </tr>
+                        <?php } ?>
+                    </table>
+                    <a href="#">Lihat Semua</a>
+                </div>
+                <div class="table-panel">
+                    <h3>Dosen Terbaru</h3>
+                    <table>
                         <tr>
-                            <td><?php echo $row['kode_mk']; ?></td>
-                            <td><?php echo $row['nama_mk']; ?></td>
+                            <th>Kode</th>
+                            <th>Nama</th>
                         </tr>
-                    <?php } ?>
-                </table>
-                <a href="#">Lihat Semua</a>
+                        <?php while ($row = mysqli_fetch_assoc($dosen_baru)) { ?>
+                            <tr>
+                                <td><?php echo $row['nip']; ?></td>
+                                <td><?php echo $row['nama']; ?></td>
+                            </tr>
+                        <?php } ?>
+                    </table>
+                    <a href="#">Lihat Semua</a>
+                </div>
+                <div class="table-panel">
+                    <h3>Matakuliah Terbaru</h3>
+                    <table>
+                        <tr>
+                            <th>Kode</th>
+                            <th>Nama MK</th>
+                        </tr>
+                        <?php while ($row = mysqli_fetch_assoc($mk_baru)) { ?>
+                            <tr>
+                                <td><?php echo $row['kode_mk']; ?></td>
+                                <td><?php echo $row['nama_mk']; ?></td>
+                            </tr>
+                        <?php } ?>
+                    </table>
+                    <a href="#">Lihat Semua</a>
+                </div>
             </div>
         </div>
     </div>

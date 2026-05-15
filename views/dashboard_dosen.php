@@ -25,52 +25,57 @@ $mk_list = mysqli_query($conn, $query_mk);
 </head>
 
 <body>
-    <div class="sidebar">
-        <h2>Siakad</h2>
-        <p>Sistem Informasi Akademik</p>
-        <button id="sidebar-toggle-btn" class="sidebar-toggle">Sembunyikan Sidebar</button>
-        <ul>
-            <li><a href="#">Dashboard</a></li>
-            <li><a href="#">Mata Kuliah</a></li>
-            <li><a href="#">Input Nilai</a></li>
-            <li><a href="logout.php">Logout</a></li>
-        </ul>
-    </div>
-    <div class="main-content" id="main-content">
-        <header>
-            <div>
-                <h1>Dashboard Dosen</h1>
-                <p>Selamat datang, <?php echo $dosen['nama']; ?></p>
+    <div class="app-shell">
+        <div class="sidebar">
+            <div class="brand">
+                <h2>Siakad</h2>
+                <p>Sistem Informasi Akademik</p>
             </div>
-            <button id="open-sidebar-btn" class="sidebar-toggle">Tampilkan Sidebar</button>
-        </header>
-        <div class="summary">
-            <div class="card">
-                <h3>NIP</h3>
-                <p><?php echo $dosen['nip']; ?></p>
-            </div>
-            <div class="card">
-                <h3>Jurusan</h3>
-                <p><?php echo $dosen['jurusan']; ?></p>
-            </div>
+            <button id="sidebar-toggle-btn" class="sidebar-toggle">Sembunyikan Sidebar</button>
+            <ul>
+                <li><a href="#">Dashboard</a></li>
+                <li><a href="#">Mata Kuliah</a></li>
+                <li><a href="#">Input Nilai</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
         </div>
-        <div class="table-panel">
-            <h3>Mata Kuliah yang Diajar</h3>
-            <table>
-                <tr>
-                    <th>Kode MK</th>
-                    <th>Nama MK</th>
-                    <th>SKS</th>
-                </tr>
-                <?php while ($row = mysqli_fetch_assoc($mk_list)) { ?>
+        <div class="main-content" id="main-content">
+            <header>
+                <div class="page-title">
+                    <h1>Dashboard Dosen</h1>
+                    <p>Selamat datang, <?php echo $dosen['nama']; ?></p>
+                </div>
+                <button id="open-sidebar-btn" class="sidebar-toggle">Tampilkan Sidebar</button>
+            </header>
+            <div class="summary">
+                <div class="card">
+                    <h3>NIP</h3>
+                    <p><?php echo $dosen['nip']; ?></p>
+                </div>
+                <div class="card">
+                    <h3>Jurusan</h3>
+                    <p><?php echo $dosen['jurusan']; ?></p>
+                </div>
+            </div>
+            <div class="table-panel">
+                <h3>Mata Kuliah yang Diajar</h3>
+                <table>
                     <tr>
-                        <td><?php echo $row['kode_mk']; ?></td>
-                        <td><?php echo $row['nama_mk']; ?></td>
-                        <td><?php echo $row['sks']; ?></td>
+                        <th>Kode MK</th>
+                        <th>Nama MK</th>
+                        <th>SKS</th>
                     </tr>
-                <?php } ?>
-            </table>
+                    <?php while ($row = mysqli_fetch_assoc($mk_list)) { ?>
+                        <tr>
+                            <td><?php echo $row['kode_mk']; ?></td>
+                            <td><?php echo $row['nama_mk']; ?></td>
+                            <td><?php echo $row['sks']; ?></td>
+                        </tr>
+                    <?php } ?>
+                </table>
+            </div>
         </div>
+    </div>
     </div>
     <script src="../assets/script.js"></script>
 </body>

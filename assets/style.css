@@ -68,12 +68,16 @@ button {
   line-height: 1.7;
 }
 
-.login-card form {
+..login-card form {
   display: grid;
   gap: 18px;
 }
 
-.login-card input {
+.login-card input,
+input[type="text"],
+input[type="password"],
+textarea,
+select {
   width: 100%;
   padding: 14px 16px;
   border-radius: 14px;
@@ -86,9 +90,20 @@ button {
     box-shadow 0.2s ease;
 }
 
-.login-card input:focus {
+.login-card input:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
   border-color: #2563eb;
   box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
+label {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--text);
 }
 
 .login-card button {
@@ -301,6 +316,185 @@ button {
 
 .sidebar-footer strong {
   color: #ffffff;
+}
+
+.student-dashboard {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) minmax(320px, 1fr);
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.student-panel,
+.student-overview,
+.report-panel {
+  background: var(--surface);
+  padding: 28px;
+  border-radius: 26px;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+}
+
+.profile-hero {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.profile-avatar {
+  width: 104px;
+  height: 104px;
+  border-radius: 24px;
+  background: #eef4ff;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-meta h2 {
+  margin: 0 0 6px;
+  font-size: 1.8rem;
+}
+
+.profile-meta .muted {
+  margin: 0;
+  color: var(--text-muted);
+}
+
+.student-details {
+  display: grid;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.student-details dl {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 6px 14px;
+  margin: 0;
+}
+
+.student-details dt {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+.student-details dd {
+  margin: 0;
+  color: #111827;
+  font-weight: 700;
+}
+
+.actions-row,
+.stats-grid,
+.quick-actions,
+.report-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.stats-grid {
+  grid-template-columns: repeat(3, minmax(140px, 1fr));
+  margin-top: 18px;
+}
+
+.stats-card,
+.quick-card,
+.report-card {
+  background: #f8fbff;
+  padding: 20px;
+  border-radius: 22px;
+  min-height: 120px;
+  display: grid;
+  gap: 8px;
+}
+
+.stats-card h3,
+.report-card h3 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.stats-card p,
+.report-card p {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+}
+
+.quick-actions {
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  margin-top: 20px;
+}
+
+.quick-card {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.quick-card span {
+  display: block;
+  font-weight: 700;
+  margin-top: 12px;
+}
+
+.student-board {
+  display: grid;
+  gap: 24px;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.section-title h2 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+.section-title a {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.profile-actions .btn {
+  width: auto;
+}
+
+@media (max-width: 1080px) {
+  .student-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid,
+  .quick-actions {
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .stats-grid,
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
 }
 
 .main-content {

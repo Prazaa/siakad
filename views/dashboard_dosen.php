@@ -55,7 +55,6 @@ $mk_list = mysqli_query($conn, $query_mk);
                 </div>
                 <div class="main-actions">
                     <button class="secondary" type="button" onclick="location.reload()">Refresh</button>
-                    <button id="sidebar-toggle-btn" class="sidebar-toggle" aria-expanded="true">☰</button>
                 </div>
             </div>
             <section id="section-dashboard" class="summary">

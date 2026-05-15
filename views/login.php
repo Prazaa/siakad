@@ -12,9 +12,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     if ($result && mysqli_num_rows($result) > 0) {
         $user = mysqli_fetch_assoc($result);
+        $isPasswordValid = false;
 
-        // PERUBAHAN DI SINI: Cukup bandingkan teks biasa secara langsung
-        if ($password === $user['password']) {
+        if (password_verify($password, $user['password'])) {
+            $isPasswordValid = true;
+        } elseif ($password === $user['password']) {
+            // Jika password masih disimpan dalam teks biasa, terima dan upgrade ke hash
+            $isPasswordValid = true;
+            $newHash = password_hash($password, PASSWORD_DEFAULT);
+            mysqli_query($conn, "UPDATE users SET password = '$newHash' WHERE id = {$user['id']}");
+        }
+
+        if ($isPasswordValid) {
             $_SESSION['user'] = $user['username'];
             $_SESSION['role'] = $user['role'];
             header('Location: ../index.php');
@@ -30,11 +39,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Login SIAKAD</title>
     <link rel="stylesheet" href="../assets/style.css">
 </head>
+
 <body>
     <div class="login-container">
         <h2>Login SIAKAD</h2>
@@ -46,4 +57,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </form>
     </div>
 </body>
+
 </html>

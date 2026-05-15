@@ -19,15 +19,18 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Admin - SIAKAD</title>
     <link rel="stylesheet" href="../assets/style.css">
 </head>
+
 <body>
     <div class="sidebar">
-        <h2>WARUNG SIX 1</h2>
+        <h2>Siakad</h2>
         <p>Sistem Informasi Akademik</p>
+        <button id="sidebar-toggle-btn" class="sidebar-toggle">Sembunyikan Sidebar</button>
         <ul>
             <li><a href="#">Dashboard</a></li>
             <li><a href="#">Data Mahasiswa</a></li>
@@ -39,14 +42,17 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
             <li><a href="logout.php">Logout</a></li>
         </ul>
     </div>
-    <div class="main-content">
+    <div class="main-content" id="main-content">
         <header>
-            <h1>Dashboard Admin</h1>
-            <p>Sistem Informasi Akademik</p>
+            <div>
+                <h1>Dashboard Admin</h1>
+                <p>Sistem Informasi Akademik</p>
+            </div>
             <div class="actions">
                 <button>Generate Laporan</button>
                 <button onclick="location.href='logout.php'">Logout</button>
             </div>
+            <button id="open-sidebar-btn" class="sidebar-toggle">Tampilkan Sidebar</button>
         </header>
         <div class="summary">
             <div class="card">
@@ -69,9 +75,15 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
             <div class="table-panel">
                 <h3>Mahasiswa Terbaru</h3>
                 <table>
-                    <tr><th>NIM</th><th>Nama</th></tr>
+                    <tr>
+                        <th>NIM</th>
+                        <th>Nama</th>
+                    </tr>
                     <?php while ($row = mysqli_fetch_assoc($mhs_baru)) { ?>
-                        <tr><td><?php echo $row['nim']; ?></td><td><?php echo $row['nama']; ?></td></tr>
+                        <tr>
+                            <td><?php echo $row['nim']; ?></td>
+                            <td><?php echo $row['nama']; ?></td>
+                        </tr>
                     <?php } ?>
                 </table>
                 <a href="#">Lihat Semua</a>
@@ -79,9 +91,15 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
             <div class="table-panel">
                 <h3>Dosen Terbaru</h3>
                 <table>
-                    <tr><th>Kode</th><th>Nama</th></tr>
+                    <tr>
+                        <th>Kode</th>
+                        <th>Nama</th>
+                    </tr>
                     <?php while ($row = mysqli_fetch_assoc($dosen_baru)) { ?>
-                        <tr><td><?php echo $row['nip']; ?></td><td><?php echo $row['nama']; ?></td></tr>
+                        <tr>
+                            <td><?php echo $row['nip']; ?></td>
+                            <td><?php echo $row['nama']; ?></td>
+                        </tr>
                     <?php } ?>
                 </table>
                 <a href="#">Lihat Semua</a>
@@ -89,14 +107,22 @@ $mk_baru = mysqli_query($conn, "SELECT kode_mk, nama_mk FROM mata_kuliah ORDER B
             <div class="table-panel">
                 <h3>Matakuliah Terbaru</h3>
                 <table>
-                    <tr><th>Kode</th><th>Nama MK</th></tr>
+                    <tr>
+                        <th>Kode</th>
+                        <th>Nama MK</th>
+                    </tr>
                     <?php while ($row = mysqli_fetch_assoc($mk_baru)) { ?>
-                        <tr><td><?php echo $row['kode_mk']; ?></td><td><?php echo $row['nama_mk']; ?></td></tr>
+                        <tr>
+                            <td><?php echo $row['kode_mk']; ?></td>
+                            <td><?php echo $row['nama_mk']; ?></td>
+                        </tr>
                     <?php } ?>
                 </table>
                 <a href="#">Lihat Semua</a>
             </div>
         </div>
     </div>
+    <script src="../assets/script.js"></script>
 </body>
+
 </html>

@@ -20,15 +20,18 @@ $mk_list = mysqli_query($conn, $query_mk);
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Mahasiswa - SIAKAD</title>
     <link rel="stylesheet" href="../assets/style.css">
 </head>
+
 <body>
     <div class="sidebar">
-        <h2>WARUNG SIX 1</h2>
+        <h2>Siakad</h2>
         <p>Sistem Informasi Akademik</p>
+        <button id="sidebar-toggle-btn" class="sidebar-toggle">Sembunyikan Sidebar</button>
         <ul>
             <li><a href="#">Dashboard</a></li>
             <li><a href="#">Jadwal Kuliah</a></li>
@@ -36,10 +39,13 @@ $mk_list = mysqli_query($conn, $query_mk);
             <li><a href="logout.php">Logout</a></li>
         </ul>
     </div>
-    <div class="main-content">
+    <div class="main-content" id="main-content">
         <header>
-            <h1>Dashboard Mahasiswa</h1>
-            <p>Selamat datang, <?php echo $mhs['nama']; ?></p>
+            <div>
+                <h1>Dashboard Mahasiswa</h1>
+                <p>Selamat datang, <?php echo $mhs['nama']; ?></p>
+            </div>
+            <button id="open-sidebar-btn" class="sidebar-toggle">Tampilkan Sidebar</button>
         </header>
         <div class="summary">
             <div class="card">
@@ -58,12 +64,24 @@ $mk_list = mysqli_query($conn, $query_mk);
         <div class="table-panel">
             <h3>Mata Kuliah yang Diambil</h3>
             <table>
-                <tr><th>Kode MK</th><th>Nama MK</th><th>Dosen</th><th>Nilai</th></tr>
+                <tr>
+                    <th>Kode MK</th>
+                    <th>Nama MK</th>
+                    <th>Dosen</th>
+                    <th>Nilai</th>
+                </tr>
                 <?php while ($row = mysqli_fetch_assoc($mk_list)) { ?>
-                    <tr><td><?php echo $row['kode_mk']; ?></td><td><?php echo $row['nama_mk']; ?></td><td><?php echo $row['dosen']; ?></td><td><?php echo $row['nilai'] ?: '-'; ?></td></tr>
+                    <tr>
+                        <td><?php echo $row['kode_mk']; ?></td>
+                        <td><?php echo $row['nama_mk']; ?></td>
+                        <td><?php echo $row['dosen']; ?></td>
+                        <td><?php echo $row['nilai'] ?: '-'; ?></td>
+                    </tr>
                 <?php } ?>
             </table>
         </div>
     </div>
+    <script src="../assets/script.js"></script>
 </body>
+
 </html>

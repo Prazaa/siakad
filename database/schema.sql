@@ -62,11 +62,11 @@ CREATE TABLE enrollment (
 
 -- Insert data dummy
 INSERT INTO users (username, password, role) VALUES
-('12345', '$2y$10$examplehash', 'mahasiswa'), -- Password: password123 (hash contoh)
-('67890', '$2y$10$examplehash', 'dosen'),
-('11111', '$2y$10$examplehash', 'tendik');
+('2403125938', '$2y$10$ie2uRylifJjWsuTovY4G7edJj9iLCNtbGcBZIBZUnsL/h2/G8ApXu', 'mahasiswa'),
+('67890', '$2y$10$q2eOrmTbvF3ss9C.B6dnb.aZwKox89yV/XR9Lr.hREMjoTsbaq156', 'dosen'),
+('11111', '$2y$10$I931SCKyvtaLucxbFqmpruQs.dQNK7T9b8gAK7fqup.qZvVTtbbru', 'tendik');
 
-INSERT INTO mahasiswa (nim, nama, jurusan, angkatan) VALUES ('12345', 'John Doe', 'Informatika', 2020);
+INSERT INTO mahasiswa (nim, nama, jurusan, angkatan) VALUES ('2403125938', 'John Doe', 'Informatika', 2020);
 INSERT INTO dosen (nip, nama, jurusan) VALUES ('67890', 'Dr. Jane Smith', 'Informatika');
 INSERT INTO tendik (nip, nama, jabatan) VALUES ('11111', 'Admin Staff', 'Administrator');
 

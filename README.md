@@ -10,13 +10,13 @@ Web aplikasi SIAKAD dengan login berdasarkan NIM/NIP dan klasifikasi mahasiswa, 
 1. Push kode ke GitHub.
 2. Buat project di Railway, connect ke repo GitHub.
 3. Tambah database MySQL di Railway.
-4. Set environment variables di Railway:
-   - DB_HOST: Railway DB host
-   - DB_USER: Railway DB user
-   - DB_PASS: Railway DB password
-   - DB_NAME: Railway DB name
-5. Update `config/koneksi.php` untuk menggunakan env vars.
-6. Railway akan deploy otomatis.
+4. Set environment variables di Railway. Aplikasi sudah mendukung kedua format:
+   - DB_HOST / MYSQLHOST
+   - DB_USER / MYSQLUSER
+   - DB_PASS / MYSQLPASSWORD
+   - DB_NAME / MYSQLDATABASE
+   - MYSQL_URL atau MYSQL_PUBLIC_URL juga didukung
+5. Railway akan deploy otomatis.
 
 ## Fitur
 - Login dengan NIM/NIP

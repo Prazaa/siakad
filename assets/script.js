@@ -17,5 +17,5 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // initialize aria state
-  if (toggleBtn) toggleBtn.setAttribute('aria-expanded', 'true');
+  if (toggleBtn && !sidebar.classList.contains('collapsed')) toggleBtn.setAttribute('aria-expanded', 'true');
 });

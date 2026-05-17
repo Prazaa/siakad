@@ -46,6 +46,21 @@ $res = mysqli_query($conn, $sql);
     <div class="main-content" style="width:100%;margin-left:0;padding:40px;">
       <h2>Input Nilai</h2>
       <p>Matakuliah yang Anda ampu dan daftar mahasiswa terdaftar.</p>
+      <div class="grade-reference">
+        <h3>Keterangan Nilai</h3>
+        <div class="grade-grid">
+          <div><strong>A</strong><span>4.00</span></div>
+          <div><strong>A-</strong><span>3.75</span></div>
+          <div><strong>B+</strong><span>3.50</span></div>
+          <div><strong>B</strong><span>3.00</span></div>
+          <div><strong>B-</strong><span>2.75</span></div>
+          <div><strong>C+</strong><span>2.50</span></div>
+          <div><strong>C</strong><span>2.00</span></div>
+          <div><strong>D</strong><span>1.00</span></div>
+          <div><strong>E</strong><span>0.00</span></div>
+          <div><strong>T</strong><span>0.00</span></div>
+        </div>
+      </div>
       <table>
         <tr>
           <th>Kode MK</th>

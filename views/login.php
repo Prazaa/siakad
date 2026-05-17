@@ -26,7 +26,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($isPasswordValid) {
             $_SESSION['user'] = $user['username'];
             $_SESSION['role'] = $user['role'];
-            header('Location: ../index.php');
+            if ($user['role'] === 'tendik') {
+                header('Location: ../views/dashboard_admin.php');
+            } elseif ($user['role'] === 'dosen') {
+                header('Location: ../views/dashboard_dosen.php');
+            } elseif ($user['role'] === 'mahasiswa') {
+                header('Location: ../views/dashboard_mahasiswa.php');
+            } else {
+                header('Location: ../index.php');
+            }
             exit();
         } else {
             $error = "Password salah!";

@@ -170,10 +170,6 @@ if ($available_res) {
               <dd><?php echo strtolower($mhs['nim']); ?>@siakad.local</dd>
             </dl>
           </div>
-          <div class="profile-actions">
-            <a href="profile_mahasiswa.php" class="btn btn-primary">Edit Profil</a>
-            <a href="#section-grades" class="btn btn-secondary">Lihat Nilai</a>
-          </div>
         </div>
 
         <div class="student-overview">
@@ -213,7 +209,6 @@ if ($available_res) {
       <section id="section-grades" class="report-panel">
         <div class="section-title">
           <h2>Nilai</h2>
-          <a href="profile_mahasiswa.php">Edit Profil</a>
         </div>
         <table>
           <tr>

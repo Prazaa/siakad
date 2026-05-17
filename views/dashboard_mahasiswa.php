@@ -1,5 +1,8 @@
 <?php
 session_start();
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 if (!isset($_SESSION['user']) || $_SESSION['role'] != 'mahasiswa') {
     header('Location: login.php');
     exit();
@@ -7,8 +10,19 @@ if (!isset($_SESSION['user']) || $_SESSION['role'] != 'mahasiswa') {
 include '../config/koneksi.php';
 
 // Ambil data mahasiswa
-$query = "SELECT * FROM mahasiswa WHERE nim = '{$_SESSION['user']}'";
-$mhs = mysqli_fetch_assoc(mysqli_query($conn, $query));
+$user_nim = mysqli_real_escape_string($conn, $_SESSION['user']);
+$query = "SELECT * FROM mahasiswa WHERE nim = '$user_nim'";
+$result = mysqli_query($conn, $query);
+
+if (!$result) {
+    die('Query mahasiswa gagal: ' . mysqli_error($conn));
+}
+
+$mhs = mysqli_fetch_assoc($result);
+if (!$mhs) {
+    header('Location: login.php');
+    exit();
+}
 
 // handle enroll / unenroll actions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -33,13 +47,21 @@ $query_mk = "SELECT e.id as enroll_id, mk.id as mk_id, mk.nama_mk, mk.kode_mk, m
              WHERE e.mahasiswa_id = {$mhs['id']}";
 $mk_list_res = mysqli_query($conn, $query_mk);
 $mk_rows = [];
-while ($r = mysqli_fetch_assoc($mk_list_res)) {
-    $mk_rows[] = $r;
+if ($mk_list_res) {
+    while ($r = mysqli_fetch_assoc($mk_list_res)) {
+        $mk_rows[] = $r;
+    }
 }
 
 // Ambil daftar mata kuliah yang belum diambil untuk ditambahkan
 $available_q = "SELECT * FROM mata_kuliah WHERE id NOT IN (SELECT mata_kuliah_id FROM enrollment WHERE mahasiswa_id = {$mhs['id']})";
 $available_res = mysqli_query($conn, $available_q);
+$available_rows = [];
+if ($available_res) {
+    while ($a = mysqli_fetch_assoc($available_res)) {
+        $available_rows[] = $a;
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -254,7 +276,7 @@ $available_res = mysqli_query($conn, $available_q);
                                 <th>Jadwal</th>
                                 <th>Aksi</th>
                             </tr>
-                            <?php while ($a = mysqli_fetch_assoc($available_res)) { ?>
+                            <?php foreach ($available_rows as $a) { ?>
                                 <tr>
                                     <td><?php echo $a['kode_mk']; ?></td>
                                     <td><?php echo $a['nama_mk']; ?></td>

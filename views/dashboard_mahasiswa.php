@@ -131,7 +131,7 @@ if ($available_res) {
             $total_weight = 0.0;
             $total_sks_for_gpa = 0;
             foreach ($mk_rows as $r) {
-                $nilai = trim($r['nilai']);
+                $nilai = trim($r['nilai'] ?? '');
                 if ($nilai !== '' && isset($grade_map[$nilai]) && !empty($r['sks'])) {
                     $gp = $grade_map[$nilai];
                     $total_weight += $gp * (int)$r['sks'];
@@ -156,6 +156,9 @@ if ($available_res) {
               <h2><?php echo $mhs['nama']; ?></h2>
               <p class="muted"><?php echo $mhs['nim']; ?></p>
               <span class="status-pill">Aktif</span>
+              <div class="profile-actions">
+                <a href="profile_mahasiswa.php" class="btn btn-secondary">Edit Profil</a>
+              </div>
             </div>
           </div>
           <div class="student-details">

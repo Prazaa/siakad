@@ -27,11 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['user'] = $user['username'];
             $_SESSION['role'] = $user['role'];
             if ($user['role'] === 'tendik') {
-                header('Location: ../views/dashboard_admin.php');
+                header('Location: dashboard_admin.php');
             } elseif ($user['role'] === 'dosen') {
-                header('Location: ../views/dashboard_dosen.php');
+                header('Location: dashboard_dosen.php');
             } elseif ($user['role'] === 'mahasiswa') {
-                header('Location: ../views/dashboard_mahasiswa.php');
+                header('Location: dashboard_mahasiswa.php');
             } else {
                 header('Location: ../index.php');
             }
